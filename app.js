@@ -10,10 +10,12 @@ const title = "Qui prend quoi ?";
 app.set("view engine", "pug");
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Index
 app.get("/", function(req, res) {
   res.render("index", { title: title });
 });
 
+// Create party
 app.post("/party", function(req, res) {
   axios
     .post(`${process.env.API_URL}/party`, req.body)
@@ -21,6 +23,7 @@ app.post("/party", function(req, res) {
     .catch(err => res.send(err));
 });
 
+// Get party by id
 app.get("/party/:id", function(req, res) {
   axios
     .get(`${process.env.API_URL}/party/${req.params.id}`)
@@ -32,6 +35,24 @@ app.get("/party/:id", function(req, res) {
       })
     )
     .catch(err => console.log(err));
+});
+
+// Create item
+app.post("/item/:id", function(req, res) {
+  axios
+    .post(`${process.env.API_URL}/party/${req.params.id}/items`, req.body)
+    .then(() => res.redirect(`/party/${req.params.id}`))
+    .catch(err => res.send(err));
+});
+
+// Delete Item, this route doesn't seems to work
+app.post("/party/:partyId/items/:itemId", function(req, res) {
+  axios
+    .post(
+      `${process.env.API_URL}/party/${req.params.partyId}/items/${req.params.itemId}`
+    )
+    .then(() => res.redirect(`/party/${req.params.partyId}`))
+    .catch(err => res.send(err));
 });
 
 app.listen(port, () => console.log(`Front app listening on port ${port}!`));
