@@ -57,7 +57,7 @@ app.post("/item/:id", function (req, res) {
 // Delete Item, this route doesn't seems to work
 app.post("/party/:partyId/items/:itemId", function (req, res) {
   axios
-    .post(
+    .delete(
       `${process.env.API_URL}/party/${req.params.partyId}/items/${req.params.itemId}`
     )
     .then(() => res.redirect(`/party/${req.params.partyId}`))
