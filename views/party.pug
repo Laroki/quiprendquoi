@@ -3,12 +3,12 @@ script.
   party = !{JSON.stringify(party)}
 h2= party.name
 h3 Créé par #{party.author}
+hr
 div
   label(for="url") Partagez l'événement
   input(id="url" value=`${url}` data-clipboard=`${url}` data-share-url=`${url}` data-share-title=`${party.name}` data-share-text=`${party.author} vous invite a rejoindre l'événement ${party.name}`)
 
 form(method="post" action=`/item/${party._id}`)
-
   div
     label(for="name") Nom de l'element
     input(name="name" id="name" required minlength="3" placeholder="Apporter du coca")
@@ -18,13 +18,13 @@ form(method="post" action=`/item/${party._id}`)
       input(name="user" id="user" required minlength="3" placeholder="Rémi")
 
   button(type="submit") Créer
-
+hr
 h2 Liste:
-  ul
-  each item in party.items
-    form(method="post" action=`/party/${party._id}/items/${item._id}`)
-      li id: #{item._id}
-      li nom: #{item.name}
-      li auteur: #{item.user}
-      button(type="submit") Supprimer
-    hr
+br
+ul
+each item in party.items
+  form(method="post" action=`/party/${party._id}/items/${item._id}`)
+    li nom: #{item.name}
+    li auteur: #{item.user}
+    button(type="submit") Supprimer
+  hr
