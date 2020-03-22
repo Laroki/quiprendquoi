@@ -22,6 +22,7 @@ hr
 h2 Liste:
 br
 ul
+// [supression d'un item]
 each item in party.items
   form(method="post" action=`/party/${party._id}/items/${item._id}`)
     li nom: #{item.name}

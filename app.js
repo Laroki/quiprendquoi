@@ -57,7 +57,7 @@ app.post("/item/:id", function (req, res) {
     .catch(err => res.send(err));
 });
 
-// Delete Item, this route doesn't seems to work
+// Delete Item, this route doesn't seems to work [supression d'un item]
 app.post("/party/:partyId/items/:itemId", function (req, res) {
   axios
     .delete(
