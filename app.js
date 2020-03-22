@@ -9,6 +9,7 @@ const title = "Qui prend quoi ?";
 
 app.set("view engine", "pug");
 app.use(express.static("public"));
+app.use(express.static("pwa"));
 app.use(
   bodyParser.urlencoded({
     extended: true
@@ -16,25 +17,29 @@ app.use(
 );
 
 // Index
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
   res.render("index", {
     title: title
   });
 });
 
 // Create party
-app.post("/party", function(req, res) {
+app.post("/party", function (req, res) {
   axios
     .post(`${process.env.API_URL}/party`, req.body)
-    .then(({ data }) => res.redirect(`/party/${data._id}`))
+    .then(({
+      data
+    }) => res.redirect(`/party/${data._id}`))
     .catch(err => res.send(err));
 });
 
 // Get party by id
-app.get("/party/:id", function(req, res) {
+app.get("/party/:id", function (req, res) {
   axios
     .get(`${process.env.API_URL}/party/${req.params.id}`)
-    .then(({ data }) =>
+    .then(({
+        data
+      }) =>
       res.render("party", {
         party: data,
         title: data.name,
@@ -45,7 +50,7 @@ app.get("/party/:id", function(req, res) {
 });
 
 // Create item
-app.post("/item/:id", function(req, res) {
+app.post("/item/:id", function (req, res) {
   axios
     .post(`${process.env.API_URL}/party/${req.params.id}/items`, req.body)
     .then(() => res.redirect(`/party/${req.params.id}`))
@@ -53,7 +58,7 @@ app.post("/item/:id", function(req, res) {
 });
 
 // Delete Item, this route doesn't seems to work
-app.post("/party/:partyId/items/:itemId", function(req, res) {
+app.post("/party/:partyId/items/:itemId", function (req, res) {
   axios
     .delete(
       `${process.env.API_URL}/party/${req.params.partyId}/items/${req.params.itemId}`
